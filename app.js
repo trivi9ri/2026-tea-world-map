@@ -157,6 +157,7 @@ const featured = {
   },
   D12: {
     name: "관아수제차",
+    instagram: "https://www.instagram.com/gwana_tea_house?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   D17: {
     name: "산도방",
@@ -464,12 +465,14 @@ A2: {
   },
   D15: {
     name: "금향다원",
+    instagram: "https://www.instagram.com/geumhyang_tea?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   D16: {
   name: "차살림",
   },
   D19: {
-  name: "해너울",
+    name: "해너울",
+    instagram: "https://www.instagram.com/byunghan81?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   D21: {
   name: "우곡요",
@@ -553,6 +556,7 @@ A2: {
   },
   F9: {
     name: "날빛",
+    instagram: "https://www.instagram.com/_nalbit?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   F10: {
   name: "청기백기",
@@ -613,6 +617,7 @@ A2: {
   },
   H20: {
     name: "주식회사 인센스월드",
+    instagram: "https://www.instagram.com/incenseworld_official?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   H22: {
     name: "청도 천연앰색연구회 쪽빛나라",
@@ -653,6 +658,7 @@ A2: {
   },
   G20: {
   name: "포담 티하우스",
+  instagram: "https://www.instagram.com/fodamteahouse?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   C14: {
     name: "노전요",
@@ -691,6 +697,7 @@ A2: {
   }, 
   G1: {
     name: "대익코리아",
+    instagram: "https://www.instagram.com/taetea_official?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   }, 
   E1: {
     name: "대통령 표창 수상 꽃차 하늘바라기",
@@ -700,10 +707,11 @@ A2: {
     name: "더셰드",
   },  
   B27: {
-    name: "도농노예",
+    name: "도농도예",
   },  
   E28: {
     name: "도동요",
+    instagram: "https://www.instagram.com/dodongyo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   E24: {
     name: "도예명장2023-01호 영산요",
@@ -753,6 +761,7 @@ A2: {
   }, 
   F25: {
     name: "모동도예",
+    instagram: "https://www.instagram.com/modongyo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   }, 
   F31: {
     name: "모을 황선회도방",
@@ -768,12 +777,14 @@ A2: {
   }, 
   D14: {
     name: "무애(MUAE TEA)",
+    instagram: "https://www.instagram.com/muaesanbang?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   }, 
   F11: {
     name: "무유",
   }, 
   C26: {
     name: "문경 경북요",
+    instagram: "https://www.instagram.com/pinetree07?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   }, 
   D20: {
     name: "민토",
@@ -783,6 +794,7 @@ A2: {
   }, 
   G24: {
     name: "바이에드가",
+    instagram: "https://www.instagram.com/_by_edgar?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   }, 
   F24: {
     name: "박달요",
