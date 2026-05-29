@@ -44,6 +44,11 @@ button {
   cursor: pointer;
 }
 
+body.resizing-map {
+  cursor: row-resize;
+  user-select: none;
+}
+
 .app-shell {
   display: grid;
   grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
@@ -52,10 +57,14 @@ button {
   overflow-x: hidden;
 }
 
+.map-list-divider {
+  display: none;
+}
+
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   border-right: 1px solid var(--line);
   background: var(--panel);
   padding: 24px;
@@ -71,7 +80,7 @@ button {
 }
 
 .brand h1 {
-  font-size: 28px;
+  font-size: 22px;
 }
 
 .map-toolbar h2 {
@@ -89,14 +98,14 @@ button {
 
 .search-panel {
   display: grid;
-  gap: 12px;
+  gap: 9px;
 }
 
 .search-box {
   display: grid;
   grid-template-columns: 28px 1fr 30px;
   align-items: center;
-  min-height: 46px;
+  min-height: 37px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel-strong);
@@ -105,7 +114,7 @@ button {
 
 .search-box span {
   color: var(--muted);
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .search-box input {
@@ -362,18 +371,18 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 10px;
   border-bottom: 1px solid var(--line);
   background: rgba(255, 250, 240, 0.9);
-  padding: 18px 22px;
+  padding: 10px 18px;
 }
 
 .icon-button {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  font-size: 20px;
+  width: 34px;
+  height: 34px;
+  font-size: 17px;
 }
 
 .icon-button:disabled {
@@ -399,7 +408,7 @@ button {
   min-height: 0;
   min-width: 0;
   overflow: hidden;
-  padding: 18px;
+  padding: 10px 18px 18px;
 }
 
 .map-scroller {
@@ -663,14 +672,14 @@ button {
 
   .app-shell {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(320px, 48dvh) minmax(0, 1fr);
+    grid-template-rows: var(--mobile-map-height, 48dvh) 14px minmax(0, 1fr);
     height: 100dvh;
     min-height: 0;
     overflow: hidden;
   }
 
   .sidebar {
-    order: 2;
+    order: 3;
     justify-self: center;
     width: min(100%, 720px);
     height: 100%;
@@ -687,6 +696,29 @@ button {
     overflow: hidden;
   }
 
+  .map-list-divider {
+    position: relative;
+    order: 2;
+    display: block;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--panel);
+    cursor: row-resize;
+    touch-action: none;
+  }
+
+  .map-list-divider::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 54px;
+    height: 4px;
+    border-radius: 999px;
+    background: #bdb19f;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+
   .list-section {
     min-height: 0;
   }
@@ -698,21 +730,42 @@ button {
 
 @media (max-width: 560px) {
   .app-shell {
-    grid-template-rows: minmax(260px, 46dvh) minmax(0, 1fr);
+    grid-template-rows: var(--mobile-map-height, 42dvh) 14px minmax(0, 1fr);
   }
 
   .sidebar,
   .map-stage,
   .map-toolbar {
-    padding: 14px;
+    padding: 10px 12px;
+  }
+
+  .sidebar {
+    gap: 10px;
   }
 
   .brand h1 {
-    font-size: 23px;
+    font-size: 18px;
   }
 
   .map-toolbar h2 {
-    font-size: 18px;
+    font-size: 16px;
+  }
+
+  .map-stage {
+    padding-top: 6px;
+  }
+
+  .search-box {
+    min-height: 34px;
+    padding: 0 9px;
+  }
+
+  .search-panel {
+    gap: 7px;
+  }
+
+  .list-section {
+    gap: 8px;
   }
 
   .detail-panel {

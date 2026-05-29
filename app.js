@@ -950,6 +950,7 @@ let didAutoZoomForSearch = false;
 
 const searchInput = document.querySelector("#searchInput");
 const clearSearch = document.querySelector("#clearSearch");
+const appShell = document.querySelector(".app-shell");
 const boothList = document.querySelector("#boothList");
 const initialIndex = document.querySelector("#initialIndex");
 const hotspots = document.querySelector("#hotspots");
@@ -960,10 +961,12 @@ const resultCount = document.querySelector("#resultCount");
 const filterButtons = document.querySelectorAll(".filter-chip");
 const sortButtons = document.querySelectorAll(".sort-button");
 const mapScroller = document.querySelector("#mapScroller");
+const mapListDivider = document.querySelector("#mapListDivider");
 const zoomLevel = document.querySelector("#zoomLevel");
 const detailDragHandle = document.querySelector("#detailDragHandle");
 let mapZoom = 1;
 let dragState = null;
+let mapResizeState = null;
 const mapPointers = new Map();
 let pinchState = null;
 let panState = null;
@@ -1014,6 +1017,9 @@ mapScroller.addEventListener("touchstart", startTouchMapGesture, { passive: fals
 mapScroller.addEventListener("touchmove", moveTouchMapGesture, { passive: false });
 mapScroller.addEventListener("touchend", endTouchMapGesture);
 mapScroller.addEventListener("touchcancel", endTouchMapGesture);
+mapListDivider.addEventListener("pointerdown", startMapResize);
+window.addEventListener("pointermove", moveMapResize);
+window.addEventListener("pointerup", stopMapResize);
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -1250,6 +1256,39 @@ function getTouchPoints(touches) {
 
 function getHotspotIdFromTarget(target) {
   return target instanceof Element ? target.closest(".hotspot")?.dataset.id || "" : "";
+}
+
+function startMapResize(event) {
+  if (!window.matchMedia("(max-width: 920px)").matches) return;
+
+  event.preventDefault();
+  const shellRect = appShell.getBoundingClientRect();
+  mapResizeState = {
+    pointerId: event.pointerId,
+    shellTop: shellRect.top,
+    shellHeight: shellRect.height,
+  };
+  mapListDivider.setPointerCapture(event.pointerId);
+  document.body.classList.add("resizing-map");
+}
+
+function moveMapResize(event) {
+  if (!mapResizeState) return;
+
+  event.preventDefault();
+  const minHeight = window.matchMedia("(max-width: 560px)").matches ? 210 : 260;
+  const maxHeight = Math.max(minHeight, mapResizeState.shellHeight - 230);
+  const nextHeight = Math.min(maxHeight, Math.max(minHeight, event.clientY - mapResizeState.shellTop));
+  appShell.style.setProperty("--mobile-map-height", `${Math.round(nextHeight)}px`);
+}
+
+function stopMapResize(event) {
+  if (!mapResizeState) return;
+  if (mapListDivider.hasPointerCapture(mapResizeState.pointerId)) {
+    mapListDivider.releasePointerCapture(mapResizeState.pointerId);
+  }
+  mapResizeState = null;
+  document.body.classList.remove("resizing-map");
 }
 
 function pxGroup(ids, left, top, width, height, cols = 2, yOffset = BOOTH_Y_OFFSET) {
