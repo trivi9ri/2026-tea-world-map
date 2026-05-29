@@ -54,6 +54,7 @@ body.resizing-map {
   grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
   width: 100%;
   min-height: 100vh;
+  --mobile-map-height: 48vh;
   overflow-x: hidden;
 }
 
@@ -672,13 +673,15 @@ body.resizing-map {
 
   .app-shell {
     grid-template-columns: 1fr;
-    grid-template-rows: var(--mobile-map-height, 48dvh) 14px minmax(0, 1fr);
+    grid-template-rows: minmax(260px, var(--mobile-map-height)) 14px minmax(0, 1fr);
+    height: 100vh;
     height: 100dvh;
     min-height: 0;
     overflow: hidden;
   }
 
   .sidebar {
+    grid-row: 3;
     order: 3;
     justify-self: center;
     width: min(100%, 720px);
@@ -691,13 +694,20 @@ body.resizing-map {
   }
 
   .map-area {
+    grid-row: 1;
     order: 1;
+    height: 100%;
     min-height: 0;
     overflow: hidden;
   }
 
+  .map-stage {
+    height: 100%;
+  }
+
   .map-list-divider {
     position: relative;
+    grid-row: 2;
     order: 2;
     display: block;
     border-top: 1px solid var(--line);
@@ -730,7 +740,8 @@ body.resizing-map {
 
 @media (max-width: 560px) {
   .app-shell {
-    grid-template-rows: var(--mobile-map-height, 42dvh) 14px minmax(0, 1fr);
+    --mobile-map-height: 42vh;
+    grid-template-rows: minmax(220px, var(--mobile-map-height)) 14px minmax(0, 1fr);
   }
 
   .sidebar,

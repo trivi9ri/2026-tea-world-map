@@ -23,7 +23,6 @@ const categoryByZone = {
 const featured = {
   A1: {
     name: "무유다원",
-    instagram: "https://www.instagram.com/tea_from_mohusil?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   A7: {
 	  name: "(사)세계기독교차문화협회/ 일양차문화연구원 회원 티플라워(다화) 전시회",
@@ -1256,39 +1255,6 @@ function getTouchPoints(touches) {
 
 function getHotspotIdFromTarget(target) {
   return target instanceof Element ? target.closest(".hotspot")?.dataset.id || "" : "";
-}
-
-function startMapResize(event) {
-  if (!window.matchMedia("(max-width: 920px)").matches) return;
-
-  event.preventDefault();
-  const shellRect = appShell.getBoundingClientRect();
-  mapResizeState = {
-    pointerId: event.pointerId,
-    shellTop: shellRect.top,
-    shellHeight: shellRect.height,
-  };
-  mapListDivider.setPointerCapture(event.pointerId);
-  document.body.classList.add("resizing-map");
-}
-
-function moveMapResize(event) {
-  if (!mapResizeState) return;
-
-  event.preventDefault();
-  const minHeight = window.matchMedia("(max-width: 560px)").matches ? 210 : 260;
-  const maxHeight = Math.max(minHeight, mapResizeState.shellHeight - 230);
-  const nextHeight = Math.min(maxHeight, Math.max(minHeight, event.clientY - mapResizeState.shellTop));
-  appShell.style.setProperty("--mobile-map-height", `${Math.round(nextHeight)}px`);
-}
-
-function stopMapResize(event) {
-  if (!mapResizeState) return;
-  if (mapListDivider.hasPointerCapture(mapResizeState.pointerId)) {
-    mapListDivider.releasePointerCapture(mapResizeState.pointerId);
-  }
-  mapResizeState = null;
-  document.body.classList.remove("resizing-map");
 }
 
 function pxGroup(ids, left, top, width, height, cols = 2, yOffset = BOOTH_Y_OFFSET) {
