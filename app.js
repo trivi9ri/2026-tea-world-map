@@ -4,6 +4,7 @@ const MAP_HEIGHT = 1080;
 const BOOTH_Y_OFFSET = 0;
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 2.5;
+const DEFAULT_ZOOM = 0.5;
 const SEARCH_FOCUS_ZOOM = 1.45;
 const DEFAULT_SORT = "name";
 const INITIAL_INDEX = ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ", "기타"];
@@ -963,7 +964,9 @@ const mapScroller = document.querySelector("#mapScroller");
 const mapListDivider = document.querySelector("#mapListDivider");
 const zoomLevel = document.querySelector("#zoomLevel");
 const detailDragHandle = document.querySelector("#detailDragHandle");
-let mapZoom = 1;
+let mapZoom = DEFAULT_ZOOM;
+let mapPanX = 0;
+let mapPanY = 0;
 let dragState = null;
 let mapResizeState = null;
 const mapPointers = new Map();
@@ -1002,7 +1005,8 @@ document.querySelector("#clearFavorites").addEventListener("click", () => {
   renderDetail();
 });
 document.querySelector("#fitMap").addEventListener("click", () => {
-  setMapZoom(1);
+  setMapZoom(DEFAULT_ZOOM);
+  setMapPan(0, 0);
   mapScroller.scrollTo({ left: 0, top: 0, behavior: "smooth" });
 });
 detailDragHandle.addEventListener("pointerdown", startDetailDrag);
@@ -1043,20 +1047,26 @@ function range(prefix, start, end) {
 function setMapZoom(nextZoom, anchor = null) {
   const previousZoom = mapZoom;
   mapZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Number(nextZoom.toFixed(2))));
-  if (mapZoom === previousZoom) return;
-
-  if (anchor) {
-    const beforeX = mapScroller.scrollLeft + anchor.x;
-    const beforeY = mapScroller.scrollTop + anchor.y;
-    const ratio = mapZoom / previousZoom;
-    mapZoomFrame.style.setProperty("--map-zoom", mapZoom);
-    mapScroller.scrollLeft = beforeX * ratio - anchor.x;
-    mapScroller.scrollTop = beforeY * ratio - anchor.y;
-  } else {
-    mapZoomFrame.style.setProperty("--map-zoom", mapZoom);
+  if (anchor && mapZoom !== previousZoom) {
+    const zoomRatio = mapZoom / previousZoom;
+    mapPanX = anchor.x - (anchor.x - mapPanX) * zoomRatio;
+    mapPanY = anchor.y - (anchor.y - mapPanY) * zoomRatio;
   }
 
+  updateMapTransform();
   zoomLevel.textContent = `${Math.round(mapZoom * 100)}%`;
+}
+
+function setMapPan(nextX, nextY) {
+  mapPanX = nextX;
+  mapPanY = nextY;
+  updateMapTransform();
+}
+
+function updateMapTransform() {
+  mapZoomFrame.style.setProperty("--map-zoom", mapZoom);
+  mapZoomFrame.style.setProperty("--map-pan-x", `${Math.round(mapPanX)}px`);
+  mapZoomFrame.style.setProperty("--map-pan-y", `${Math.round(mapPanY)}px`);
 }
 
 function startMapGesture(event) {
@@ -1070,8 +1080,8 @@ function startMapGesture(event) {
       hotspotId,
       x: event.clientX,
       y: event.clientY,
-      scrollLeft: mapScroller.scrollLeft,
-      scrollTop: mapScroller.scrollTop,
+      panX: mapPanX,
+      panY: mapPanY,
       moved: false,
     };
     mapScroller.classList.add("dragging");
@@ -1103,8 +1113,7 @@ function moveMapGesture(event) {
     const deltaX = event.clientX - panState.x;
     const deltaY = event.clientY - panState.y;
     panState.moved = panState.moved || Math.hypot(deltaX, deltaY) > 6;
-    mapScroller.scrollLeft = panState.scrollLeft - deltaX;
-    mapScroller.scrollTop = panState.scrollTop - deltaY;
+    setMapPan(panState.panX + deltaX, panState.panY + deltaY);
     return;
   }
 
@@ -1156,8 +1165,8 @@ function startTouchMapGesture(event) {
       hotspotId: getHotspotIdFromTarget(event.target),
       x: touch.clientX,
       y: touch.clientY,
-      scrollLeft: mapScroller.scrollLeft,
-      scrollTop: mapScroller.scrollTop,
+      panX: mapPanX,
+      panY: mapPanY,
       moved: false,
     };
     return;
@@ -1189,8 +1198,7 @@ function moveTouchMapGesture(event) {
     const deltaX = touch.clientX - touchGestureState.x;
     const deltaY = touch.clientY - touchGestureState.y;
     touchGestureState.moved = touchGestureState.moved || Math.hypot(deltaX, deltaY) > 6;
-    mapScroller.scrollLeft = touchGestureState.scrollLeft - deltaX;
-    mapScroller.scrollTop = touchGestureState.scrollTop - deltaY;
+    setMapPan(touchGestureState.panX + deltaX, touchGestureState.panY + deltaY);
     return;
   }
 
@@ -1239,8 +1247,8 @@ function endTouchMapGesture(event) {
       hotspotId: getHotspotIdFromTarget(event.target),
       x: touch.clientX,
       y: touch.clientY,
-      scrollLeft: mapScroller.scrollLeft,
-      scrollTop: mapScroller.scrollTop,
+      panX: mapPanX,
+      panY: mapPanY,
       moved: false,
     };
   }
@@ -1485,7 +1493,8 @@ function scrollToInitial(initial) {
 function focusSingleSearchResult(filtered, query) {
   if (!query || filtered.length !== 1) {
     if (didAutoZoomForSearch && filtered.length > 1) {
-      setMapZoom(1);
+      setMapZoom(DEFAULT_ZOOM);
+      setMapPan(0, 0);
       mapScroller.scrollTo({ left: 0, top: 0, behavior: "smooth" });
     }
     lastSingleSearchKey = "";

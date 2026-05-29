@@ -435,7 +435,7 @@ body.resizing-map {
   max-width: none;
   background: transparent;
   touch-action: none;
-  transform: scale(var(--map-zoom, 1));
+  transform: translate(var(--map-pan-x, 0px), var(--map-pan-y, 0px)) scale(var(--map-zoom, 1));
   transform-origin: top left;
 }
 
