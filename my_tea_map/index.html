@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>차문화세계대전 부스 안내</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="부스 검색 및 목록">
+        <header class="brand">
+          <p class="eyebrow">2026 Tea Festival</p>
+          <h1>차문화세계대전 부스 안내</h1>
+        </header>
+
+        <section class="search-panel" aria-label="부스 검색">
+          <div class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="부스명, 번호, 품목 검색" autocomplete="off" />
+          </div>
+          <div class="filter-row" role="tablist" aria-label="목록 필터">
+            <button class="filter-chip active" type="button" data-filter="all">전체</button>
+            <button class="filter-chip" type="button" data-filter="favorites">즐겨찾기</button>
+            <button class="filter-chip" type="button" data-filter="event">이벤트</button>
+          </div>
+          <div class="sort-toggle" aria-label="목록 정렬">
+            <button class="sort-button active" type="button" data-sort="name">가나다순</button>
+            <button class="sort-button" type="button" data-sort="booth">부스번호순</button>
+          </div>
+        </section>
+
+        <section class="list-section" aria-label="참가 부스 리스트">
+          <div class="list-meta">
+            <strong id="resultCount">0개 부스</strong>
+            <button id="clearFavorites" class="ghost-button" type="button">즐겨찾기 초기화</button>
+          </div>
+          <div class="list-browser">
+            <div id="boothList" class="booth-list"></div>
+            <nav id="initialIndex" class="initial-index" aria-label="초성 빠른 이동"></nav>
+          </div>
+        </section>
+      </aside>
+
+      <main class="map-area">
+        <div class="map-toolbar">
+          <div>
+            <p class="eyebrow">Booth Map</p>
+            <h2>배치도에서 부스를 선택하세요</h2>
+          </div>
+          <div class="zoom-controls" aria-label="배치도 확대 축소">
+            <button id="zoomOut" class="icon-button" type="button" title="축소">−</button>
+            <span id="zoomLevel" class="zoom-level">100%</span>
+            <button id="zoomIn" class="icon-button" type="button" title="확대">＋</button>
+            <button id="fitMap" class="icon-button" type="button" title="원본 크기">⛶</button>
+          </div>
+        </div>
+
+        <section class="map-stage" aria-label="차문화세계대전 부스 배치도">
+          <div id="mapScroller" class="map-scroller">
+            <div id="mapZoomFrame" class="map-zoom-frame">
+              <div id="mapCanvas" class="map-canvas">
+                <img src="./2026_tea_festival.PNG" alt="2026 차문화세계대전 부스 배치도" />
+                <div id="hotspots" class="hotspots" aria-label="클릭 가능한 부스"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <aside id="detailPanel" class="detail-panel" aria-live="polite">
+      <div id="detailDragHandle" class="detail-drag-handle" aria-label="상세 패널 이동"></div>
+      <button id="closeDetail" class="close-button" type="button" aria-label="상세 닫기">×</button>
+      <div id="detailContent"></div>
+    </aside>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
