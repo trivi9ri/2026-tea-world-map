@@ -1003,10 +1003,12 @@ function setMapZoom(nextZoom, anchor = null) {
 function startMapGesture(event) {
   mapPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
   mapScroller.setPointerCapture(event.pointerId);
+  const hotspotId = getHotspotIdFromTarget(event.target);
 
   if (mapPointers.size === 1) {
     panState = {
       pointerId: event.pointerId,
+      hotspotId,
       x: event.clientX,
       y: event.clientY,
       scrollLeft: mapScroller.scrollLeft,
@@ -1065,6 +1067,10 @@ function endMapGesture(event) {
   }
   if (panState?.pointerId === event.pointerId) {
     suppressHotspotClick = panState.moved;
+    if (!panState.moved && panState.hotspotId) {
+      suppressHotspotClick = false;
+      selectBooth(panState.hotspotId, { pan: false });
+    }
     panState = null;
   }
   if (!panState) {
@@ -1088,6 +1094,7 @@ function startTouchMapGesture(event) {
     const touch = event.touches[0];
     touchGestureState = {
       mode: "pan",
+      hotspotId: getHotspotIdFromTarget(event.target),
       x: touch.clientX,
       y: touch.clientY,
       scrollLeft: mapScroller.scrollLeft,
@@ -1157,6 +1164,10 @@ function endTouchMapGesture(event) {
   if (event.touches.length === 0) {
     if (touchGestureState?.mode === "pan") {
       suppressHotspotClick = touchGestureState.moved;
+      if (!touchGestureState.moved && touchGestureState.hotspotId) {
+        suppressHotspotClick = false;
+        selectBooth(touchGestureState.hotspotId, { pan: false });
+      }
     }
     touchGestureState = null;
     return;
@@ -1166,6 +1177,7 @@ function endTouchMapGesture(event) {
     const touch = event.touches[0];
     touchGestureState = {
       mode: "pan",
+      hotspotId: getHotspotIdFromTarget(event.target),
       x: touch.clientX,
       y: touch.clientY,
       scrollLeft: mapScroller.scrollLeft,
@@ -1180,6 +1192,10 @@ function getTouchPoints(touches) {
     x: touch.clientX,
     y: touch.clientY,
   }));
+}
+
+function getHotspotIdFromTarget(target) {
+  return target instanceof Element ? target.closest(".hotspot")?.dataset.id || "" : "";
 }
 
 function pxGroup(ids, left, top, width, height, cols = 2, yOffset = BOOTH_Y_OFFSET) {
@@ -1405,6 +1421,7 @@ function selectBooth(id, options = {}) {
   renderList();
   renderDetail();
   detailPanel.classList.add("open");
+  requestAnimationFrame(keepDetailPanelInView);
 
   if (options.pan) {
     const hotspot = hotspots.querySelector(`[data-id="${CSS.escape(id)}"]`);
@@ -1429,6 +1446,21 @@ function moveDetailPanel(event) {
   const panelHeight = detailPanel.offsetHeight;
   const left = Math.min(window.innerWidth - panelWidth - 8, Math.max(8, event.clientX - dragState.offsetX));
   const top = Math.min(window.innerHeight - panelHeight - 8, Math.max(8, event.clientY - dragState.offsetY));
+
+  detailPanel.style.left = `${left}px`;
+  detailPanel.style.top = `${top}px`;
+  detailPanel.style.right = "auto";
+  detailPanel.style.bottom = "auto";
+}
+
+function keepDetailPanelInView() {
+  if (!detailPanel.classList.contains("open")) return;
+
+  const rect = detailPanel.getBoundingClientRect();
+  const panelWidth = detailPanel.offsetWidth;
+  const panelHeight = detailPanel.offsetHeight;
+  const left = Math.min(window.innerWidth - panelWidth - 8, Math.max(8, rect.left));
+  const top = Math.min(window.innerHeight - panelHeight - 8, Math.max(8, rect.top));
 
   detailPanel.style.left = `${left}px`;
   detailPanel.style.top = `${top}px`;
