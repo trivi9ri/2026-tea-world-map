@@ -638,6 +638,7 @@ A2: {
   },
   G2: {
   name: "티하우스 나니",
+  instagram: "https://www.instagram.com/teahousenani?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   G3: {
   name: "정산당",
@@ -659,6 +660,7 @@ A2: {
   },
   G16: {
   name: "차세상 / 유산차방 한국총판",
+  instagram: "https://www.instagram.com/cha_sesang?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   G20: {
   name: "포담 티하우스",
@@ -677,6 +679,7 @@ A2: {
   },
   C18: {
     name: "누보도예",
+    instagram: "https://www.instagram.com/nubopottery1996?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   G10: {
     name: "다견원",
@@ -692,12 +695,14 @@ A2: {
   },   
   G7: {
     name: "다연재",
+    instagram: "https://www.instagram.com/goodtealab_chayanzhai?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },  
   B11: {
     name: "다채",
   },  
   B26: {
     name: "대광도요",
+    instagram: "https://www.instagram.com/daegwangdoyo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   }, 
   G1: {
     name: "대익코리아",
@@ -725,6 +730,7 @@ A2: {
   },  
   D23: {
     name: "도유가",
+    instagram: "https://www.instagram.com/doyouga_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },  
   B25: {
     name: "도정요",
@@ -749,7 +755,8 @@ A2: {
     name: "뚜띨로공방",
   },
   F16: {
-    name: "라세미스타",
+    name: "라세라미스타",
+    instagram: "https://www.instagram.com/laceramista?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   }, 
   C27: {
     name: "라키모",
@@ -759,6 +766,7 @@ A2: {
   }, 
   C6: {
     name: "로전",
+    instagram: "https://www.instagram.com/rozeon_tea?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   }, 
   D7: {
     name: "명성다원",
@@ -775,6 +783,7 @@ A2: {
   }, 
   F4: {
     name: "묘차",
+    instagram: "https://www.instagram.com/myo.cha?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },     
   B20: {
     name: "무결",
@@ -792,6 +801,7 @@ A2: {
   }, 
   D20: {
     name: "민토",
+    instagram: "https://www.instagram.com/ceraminto?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   }, 
   H9: {
     name: "밀밀홍",
@@ -921,6 +931,7 @@ let lastSingleSearchKey = "";
 let didAutoZoomForSearch = false;
 
 const searchInput = document.querySelector("#searchInput");
+const clearSearch = document.querySelector("#clearSearch");
 const boothList = document.querySelector("#boothList");
 const initialIndex = document.querySelector("#initialIndex");
 const hotspots = document.querySelector("#hotspots");
@@ -947,7 +958,16 @@ renderList();
 renderInitialIndex(booths);
 setMapZoom(mapZoom);
 
-searchInput.addEventListener("input", renderList);
+searchInput.addEventListener("input", () => {
+  syncClearSearchButton();
+  renderList();
+});
+clearSearch.addEventListener("click", () => {
+  searchInput.value = "";
+  syncClearSearchButton();
+  renderList();
+  searchInput.focus();
+});
 document.querySelector("#closeDetail").addEventListener("click", () => {
   selectedId = null;
   detailPanel.classList.remove("open");
@@ -1301,6 +1321,7 @@ function renderHotspots() {
 }
 
 function renderList() {
+  syncClearSearchButton();
   const query = searchInput.value.trim().toLowerCase();
   const filtered = booths
     .filter((booth) => {
@@ -1334,6 +1355,10 @@ function renderList() {
   });
 
   focusSingleSearchResult(filtered, query);
+}
+
+function syncClearSearchButton() {
+  searchInput.parentElement.classList.toggle("has-value", searchInput.value.length > 0);
 }
 
 function renderBoothCard(booth) {

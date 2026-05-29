@@ -94,7 +94,7 @@ button {
 
 .search-box {
   display: grid;
-  grid-template-columns: 28px 1fr;
+  grid-template-columns: 28px 1fr 30px;
   align-items: center;
   min-height: 46px;
   border: 1px solid var(--line);
@@ -110,10 +110,28 @@ button {
 
 .search-box input {
   width: 100%;
+  min-width: 0;
   border: 0;
   outline: 0;
   background: transparent;
   color: var(--ink);
+}
+
+.clear-search {
+  display: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 999px;
+  background: #eee6d7;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.search-box.has-value .clear-search {
+  display: grid;
 }
 
 .filter-row {
