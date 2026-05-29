@@ -186,6 +186,10 @@ const featured = {
   E10: {
     name: "여송도예",
   },
+  E13: {
+    name: "무무요",
+    instagram: "https://www.instagram.com/moomoo_studio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
+  },
   E18: {
     name: "부산광역시 공예협동조합 토산요",
     instagram: "https://www.instagram.com/tousanyo2870?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
