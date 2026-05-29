@@ -59,6 +59,7 @@ button {
   border-right: 1px solid var(--line);
   background: var(--panel);
   padding: 24px;
+  height: 100vh;
   min-height: 100vh;
 }
 
@@ -188,6 +189,7 @@ button {
   display: grid;
   align-content: start;
   gap: 10px;
+  height: 100%;
   min-height: 0;
   overflow: auto;
   padding-right: 4px;
@@ -198,6 +200,7 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 8px;
+  height: 100%;
   min-height: 0;
   flex: 1;
 }
@@ -267,16 +270,47 @@ button {
   white-space: nowrap;
 }
 
-.booth-card p {
-  margin: 5px 0 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.4;
+.booth-number {
+  display: inline-block;
+  font-weight: 800;
+  min-width: 34px;
 }
 
-.booth-number {
-  color: var(--accent-dark);
+.booth-name {
+  color: #343434;
   font-weight: 800;
+}
+
+.zone-A {
+  color: #86b936;
+}
+
+.zone-B {
+  color: #7f9edc;
+}
+
+.zone-C {
+  color: #e58b2f;
+}
+
+.zone-D {
+  color: #263a77;
+}
+
+.zone-E {
+  color: #2f6f35;
+}
+
+.zone-F {
+  color: #c79a16;
+}
+
+.zone-G {
+  color: #b89a6a;
+}
+
+.zone-H {
+  color: #7f63c9;
 }
 
 .favorite-button {
@@ -355,10 +389,15 @@ button {
   overflow: auto;
   overscroll-behavior: contain;
   touch-action: none;
+  cursor: grab;
   border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+}
+
+.map-scroller.dragging {
+  cursor: grabbing;
 }
 
 .map-canvas {
@@ -559,6 +598,7 @@ button {
     order: 2;
     justify-self: center;
     width: min(100%, 720px);
+    height: auto;
     min-height: auto;
     border-right: 0;
     border-top: 1px solid var(--line);
@@ -569,12 +609,12 @@ button {
     order: 1;
   }
 
-  .booth-list {
-    max-height: 300px;
-  }
-
   .map-area {
     min-height: 70vh;
+  }
+
+  .list-section {
+    min-height: clamp(360px, 55vh, 720px);
   }
 
   .map-scroller {

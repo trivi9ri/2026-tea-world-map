@@ -4,7 +4,6 @@ const MAP_HEIGHT = 1080;
 const BOOTH_Y_OFFSET = 0;
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 2.5;
-const ZOOM_STEP = 0.1;
 const DEFAULT_SORT = "name";
 const INITIAL_INDEX = ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ", "기타"];
 const HANGUL_INITIALS = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
@@ -847,6 +846,7 @@ const mapPointers = new Map();
 let pinchState = null;
 let panState = null;
 let touchGestureState = null;
+let suppressHotspotClick = false;
 
 renderHotspots();
 syncSortButtons();
@@ -872,8 +872,6 @@ document.querySelector("#fitMap").addEventListener("click", () => {
   setMapZoom(1);
   mapScroller.scrollTo({ left: 0, top: 0, behavior: "smooth" });
 });
-document.querySelector("#zoomOut").addEventListener("click", () => setMapZoom(mapZoom - ZOOM_STEP));
-document.querySelector("#zoomIn").addEventListener("click", () => setMapZoom(mapZoom + ZOOM_STEP));
 detailDragHandle.addEventListener("pointerdown", startDetailDrag);
 window.addEventListener("pointermove", moveDetailPanel);
 window.addEventListener("pointerup", stopDetailDrag);
@@ -908,27 +906,24 @@ function range(prefix, start, end) {
 
 function setMapZoom(nextZoom, anchor = null) {
   const previousZoom = mapZoom;
-    mapZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Number(nextZoom.toFixed(2))));
-    if (mapZoom === previousZoom) return;
+  mapZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Number(nextZoom.toFixed(2))));
+  if (mapZoom === previousZoom) return;
 
-    if (anchor) {
-      const beforeX = mapScroller.scrollLeft + anchor.x;
-      const beforeY = mapScroller.scrollTop + anchor.y;
-      const ratio = mapZoom / previousZoom;
-  mapZoomFrame.style.setProperty("--map-zoom", mapZoom);
-  mapScroller.scrollLeft = beforeX * ratio - anchor.x;
-  mapScroller.scrollTop = beforeY * ratio - anchor.y;
-} else {
-  mapZoomFrame.style.setProperty("--map-zoom", mapZoom);
-}
+  if (anchor) {
+    const beforeX = mapScroller.scrollLeft + anchor.x;
+    const beforeY = mapScroller.scrollTop + anchor.y;
+    const ratio = mapZoom / previousZoom;
+    mapZoomFrame.style.setProperty("--map-zoom", mapZoom);
+    mapScroller.scrollLeft = beforeX * ratio - anchor.x;
+    mapScroller.scrollTop = beforeY * ratio - anchor.y;
+  } else {
+    mapZoomFrame.style.setProperty("--map-zoom", mapZoom);
+  }
 
   zoomLevel.textContent = `${Math.round(mapZoom * 100)}%`;
-  document.querySelector("#zoomOut").disabled = mapZoom <= MIN_ZOOM;
-  document.querySelector("#zoomIn").disabled = mapZoom >= MAX_ZOOM;
 }
 
 function startMapGesture(event) {
-  if (event.pointerType === "mouse") return;
   mapPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
   mapScroller.setPointerCapture(event.pointerId);
 
@@ -939,7 +934,9 @@ function startMapGesture(event) {
       y: event.clientY,
       scrollLeft: mapScroller.scrollLeft,
       scrollTop: mapScroller.scrollTop,
+      moved: false,
     };
+    mapScroller.classList.add("dragging");
   }
 
   if (mapPointers.size === 2) {
@@ -965,8 +962,11 @@ function moveMapGesture(event) {
 
   if (mapPointers.size === 1 && panState?.pointerId === event.pointerId) {
     event.preventDefault();
-    mapScroller.scrollLeft = panState.scrollLeft - (event.clientX - panState.x);
-    mapScroller.scrollTop = panState.scrollTop - (event.clientY - panState.y);
+    const deltaX = event.clientX - panState.x;
+    const deltaY = event.clientY - panState.y;
+    panState.moved = panState.moved || Math.hypot(deltaX, deltaY) > 6;
+    mapScroller.scrollLeft = panState.scrollLeft - deltaX;
+    mapScroller.scrollTop = panState.scrollTop - deltaY;
     return;
   }
 
@@ -987,7 +987,11 @@ function endMapGesture(event) {
     pinchState = null;
   }
   if (panState?.pointerId === event.pointerId) {
+    suppressHotspotClick = panState.moved;
     panState = null;
+  }
+  if (!panState) {
+    mapScroller.classList.remove("dragging");
   }
 }
 
@@ -1011,6 +1015,7 @@ function startTouchMapGesture(event) {
       y: touch.clientY,
       scrollLeft: mapScroller.scrollLeft,
       scrollTop: mapScroller.scrollTop,
+      moved: false,
     };
     return;
   }
@@ -1038,8 +1043,11 @@ function moveTouchMapGesture(event) {
   if (event.touches.length === 1 && touchGestureState.mode === "pan") {
     event.preventDefault();
     const touch = event.touches[0];
-    mapScroller.scrollLeft = touchGestureState.scrollLeft - (touch.clientX - touchGestureState.x);
-    mapScroller.scrollTop = touchGestureState.scrollTop - (touch.clientY - touchGestureState.y);
+    const deltaX = touch.clientX - touchGestureState.x;
+    const deltaY = touch.clientY - touchGestureState.y;
+    touchGestureState.moved = touchGestureState.moved || Math.hypot(deltaX, deltaY) > 6;
+    mapScroller.scrollLeft = touchGestureState.scrollLeft - deltaX;
+    mapScroller.scrollTop = touchGestureState.scrollTop - deltaY;
     return;
   }
 
@@ -1070,6 +1078,9 @@ function moveTouchMapGesture(event) {
 
 function endTouchMapGesture(event) {
   if (event.touches.length === 0) {
+    if (touchGestureState?.mode === "pan") {
+      suppressHotspotClick = touchGestureState.moved;
+    }
     touchGestureState = null;
     return;
   }
@@ -1082,6 +1093,7 @@ function endTouchMapGesture(event) {
       y: touch.clientY,
       scrollLeft: mapScroller.scrollLeft,
       scrollTop: mapScroller.scrollTop,
+      moved: false,
     };
   }
 }
@@ -1168,7 +1180,14 @@ function renderHotspots() {
     .join("");
 
   hotspots.querySelectorAll(".hotspot").forEach((button) => {
-    button.addEventListener("click", () => selectBooth(button.dataset.id, { pan: false }));
+    button.addEventListener("click", (event) => {
+      if (suppressHotspotClick) {
+        event.preventDefault();
+        suppressHotspotClick = false;
+        return;
+      }
+      selectBooth(button.dataset.id, { pan: false });
+    });
   });
 }
 
@@ -1207,7 +1226,6 @@ function renderList() {
 }
 
 function renderBoothCard(booth) {
-  const meta = [booth.category, booth.event].filter(Boolean).join(" · ");
   return `
     <button
       class="booth-card ${booth.id === selectedId ? "selected" : ""}"
@@ -1216,8 +1234,10 @@ function renderBoothCard(booth) {
       data-initial="${getInitialGroup(booth.name)}"
     >
       <span class="booth-card-main">
-        <h3><span class="booth-number">${booth.id}</span> ${booth.name}</h3>
-        ${meta ? `<p>${meta}</p>` : ""}
+        <h3>
+          <span class="booth-number zone-${booth.id.slice(0, 1)}">${booth.id}</span>
+          <span class="booth-name">${booth.name}</span>
+        </h3>
       </span>
       <span class="favorite-button ${favorites.has(booth.id) ? "active" : ""}" data-id="${booth.id}" role="button" aria-label="즐겨찾기">★</span>
     </button>
