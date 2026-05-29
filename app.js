@@ -2,8 +2,9 @@ const FAVORITES_KEY = "teaFestivalFavorites";
 const MAP_WIDTH = 1456;
 const MAP_HEIGHT = 1080;
 const BOOTH_Y_OFFSET = 0;
-const MIN_ZOOM = 0.5;
+const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 2.5;
+const SEARCH_FOCUS_ZOOM = 1.45;
 const DEFAULT_SORT = "name";
 const INITIAL_INDEX = ["ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ", "기타"];
 const HANGUL_INITIALS = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
@@ -122,18 +123,6 @@ const featured = {
     name: "섬진다원",
     instagram: "https://www.instagram.com/teahouse_sumjin?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
-  B16: {
-    name: "블렌드 스튜디오 숨",
-    summary: "꽃과 허브를 조합한 논카페인 블렌딩티를 선보입니다.",
-    instagram: "https://www.instagram.com/explore/tags/blendingtea/",
-    event: "블렌딩 향 맞히기 이벤트",
-  },
-  C1: {
-    name: "다정한 과자점",
-    summary: "차와 함께 먹기 좋은 한입 디저트와 페어링 세트를 판매합니다.",
-    instagram: "https://www.instagram.com/explore/tags/teatime/",
-    event: "3종 페어링 세트 현장 할인",
-  },
   C2: {
     name: "연우제다",
     instagram: "https://www.instagram.com/younwoo.tea?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
@@ -208,12 +197,6 @@ const featured = {
   E20: {
     name: "부산광역시 공예협동조합 다솔도예",
     instagram: "https://www.instagram.com/dasoldoye?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
-  },
-  E23: {
-    name: "남녘 찻잎",
-    summary: "국내 산지별 녹차와 발효차를 비교 시음할 수 있습니다.",
-    instagram: "https://www.instagram.com/explore/tags/greentea/",
-    event: "산지별 차 시음 카드 제공",
   },
   E27: {
     name: "백암요",
@@ -333,9 +316,11 @@ A2: {
   },
   A29: {
   name: "토라",
+  instagram: "https://www.instagram.com/tora_ceramic_official?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   A31: {
   name: "정가로이",
+  instagram: "https://www.instagram.com/jeong_garoi_pottery?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   A32: {
   name: "우기원",
@@ -402,6 +387,7 @@ A2: {
   },
   B19: {
   name: "청자,더 공유 / the0u",
+  instagram: "https://www.instagram.com/the0u?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   B22: {
   name: "욱산도헌",
@@ -459,6 +445,7 @@ A2: {
   },
   D3: {
   name: "황아차 용강 녹차",
+  instagram: "https://www.instagram.com/just_as_it_is2015?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   D4: {
   name: "혜림 茶. 혜림농원",
@@ -558,9 +545,11 @@ A2: {
   },
   F6: {
   name: "강동현",
+  instagram: "https://www.instagram.com/kangdonghyun_ceramics_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   F8: {
-  name: "우기원",
+  name: "우기세라믹",
+  instagram: "https://www.instagram.com/woogi__96?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   F9: {
     name: "날빛",
@@ -633,6 +622,7 @@ A2: {
   },
   H25: {
     name: "고전문화",
+    instagram: "https://www.instagram.com/1988tea?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   H26: {
     name: "계절사이로 (이오순 금침명인)",
@@ -642,6 +632,7 @@ A2: {
   },
   G3: {
   name: "정산당",
+  instagram: "https://www.instagram.com/lapsangstorekr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   G4: {
   name: "재단법인 하동차&바이오진흥원",
@@ -651,9 +642,11 @@ A2: {
   },
   G9: {
   name: "지유명차",
+  instagram: "https://www.instagram.com/gallerygu.zisha?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   G13: {
   name: "틴지오브소울",
+  instagram: "https://www.instagram.com/tinge.of.soul?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   G16: {
   name: "차세상 / 유산차방 한국총판",
@@ -663,9 +656,11 @@ A2: {
   },
   C14: {
     name: "노전요",
+    instagram: "https://www.instagram.com/nojeon_yo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   D22: {
     name: "녹주요",
+    instagram: "https://www.instagram.com/nok_ju_yo/?utm_source=ig_web_button_share_sheet",
   },
   D13: {
     name: "농업회사법인 지리산 상선암차",
@@ -699,6 +694,7 @@ A2: {
   }, 
   E1: {
     name: "대통령 표창 수상 꽃차 하늘바라기",
+    instagram: "https://www.instagram.com/flower_tea_hanulbaragi?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   E25: {
     name: "더셰드",
@@ -723,6 +719,7 @@ A2: {
   },  
   G19: {
     name: "동심명차",
+    instagram: "https://www.instagram.com/dongsim_myeongcha?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },  
   A20: {
     name: "동원공방",
@@ -738,7 +735,85 @@ A2: {
   },  
   B23: {
     name: "뚜띨로공방",
-  },    
+  },
+  F16: {
+    name: "라세미스타",
+  }, 
+  C27: {
+    name: "라키모",
+  }, 
+  G12: {
+    name: "랑카티스(스리랑카 홍차)",
+  }, 
+  C6: {
+    name: "로전",
+  }, 
+  D7: {
+    name: "명성다원",
+  }, 
+  F25: {
+    name: "모동도예",
+  }, 
+  F31: {
+    name: "모을 황선회도방",
+  }, 
+  B21: {
+    name: "몽탄갤러리",
+  }, 
+  F4: {
+    name: "묘차",
+  },     
+  B20: {
+    name: "무결",
+  }, 
+  D14: {
+    name: "무애(MUAE TEA)",
+  }, 
+  F11: {
+    name: "무유",
+  }, 
+  C26: {
+    name: "문경 경북요",
+  }, 
+  D20: {
+    name: "민토",
+  }, 
+  H9: {
+    name: "밀밀홍",
+  }, 
+  G24: {
+    name: "바이에드가",
+  }, 
+  F24: {
+    name: "박달요",
+  }, 
+  H27: {
+    name: "반짇고리",
+  },   
+  E9: {
+    name: "백산도예 연구소",
+  }, 
+  C21: {
+    name: "보니다",
+  },
+  G18: {
+    name: "北京妙香缘贸易有限公司 (북경 묘향연 무역 유한공사)",
+  }, 
+  G17: {
+    name: "宜兴永盛陶艺茗壶堂 (의흥 영성 도예 명호당)",
+  }, 
+  H16: {
+    name: "宜兴知了文化创意有限公司 (의흥 지료 문화창의 유한공사)",
+  }, 
+  G21: {
+    name: "尹茶人 - YIN TEA (윤차인 - 인 티)",
+  }, 
+  H19: {
+    name: "森桦陶瓷公司 (삼화 도자공사)",
+  }, 
+  H13: {
+    name: "茗扬天下(명양천하) x 휴코퍼레이션 x 북경도사",
+  },  
 };
 
 const layouts = [
@@ -826,6 +901,8 @@ let favorites = new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]"))
 let selectedId = null;
 let activeFilter = "all";
 let activeSort = DEFAULT_SORT;
+let lastSingleSearchKey = "";
+let didAutoZoomForSearch = false;
 
 const searchInput = document.querySelector("#searchInput");
 const boothList = document.querySelector("#boothList");
@@ -1223,6 +1300,8 @@ function renderList() {
       toggleFavorite(button.dataset.id);
     });
   });
+
+  focusSingleSearchResult(filtered, query);
 }
 
 function renderBoothCard(booth) {
@@ -1290,6 +1369,36 @@ function scrollToInitial(initial) {
   target?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function focusSingleSearchResult(filtered, query) {
+  if (!query || filtered.length !== 1) {
+    if (didAutoZoomForSearch && filtered.length > 1) {
+      setMapZoom(1);
+      mapScroller.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+    }
+    lastSingleSearchKey = "";
+    didAutoZoomForSearch = false;
+    return;
+  }
+
+  const booth = filtered[0];
+  const searchKey = `${query}:${booth.id}`;
+  if (searchKey === lastSingleSearchKey) return;
+  lastSingleSearchKey = searchKey;
+
+  setMapZoom(Math.max(mapZoom, SEARCH_FOCUS_ZOOM));
+  didAutoZoomForSearch = true;
+  requestAnimationFrame(() => {
+    const hotspot = hotspots.querySelector(`[data-id="${CSS.escape(booth.id)}"]`);
+    if (!hotspot) return;
+
+    hotspot.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+    hotspot.classList.remove("search-flash");
+    void hotspot.offsetWidth;
+    hotspot.classList.add("search-flash");
+    window.setTimeout(() => hotspot.classList.remove("search-flash"), 3000);
+  });
+}
+
 function selectBooth(id, options = {}) {
   selectedId = id;
   renderHotspots();
@@ -1344,7 +1453,7 @@ function renderDetail() {
   }
 
   detailContent.innerHTML = `
-    <p class="detail-kicker">${booth.id} · ${booth.category}</p>
+    <p class="detail-kicker">${booth.id}</p>
     <h2>${booth.name}</h2>
     ${booth.summary ? `<p>${booth.summary}</p>` : ""}
     ${booth.event ? `<p><strong>이벤트</strong><br />${booth.event}</p>` : ""}
