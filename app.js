@@ -182,6 +182,7 @@ const featured = {
   },
   E8: {
     name: "수니공방",
+    instagram: "https://www.instagram.com/suni_silver_craft?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   E10: {
     name: "여송도예",
@@ -242,6 +243,7 @@ const featured = {
   },
   G5: {
     name: "글림피스",
+    instagram: "https://www.instagram.com/glimpiece_official?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   G14: {
     name: "사계다향",
@@ -282,9 +284,9 @@ const featured = {
   H24: {
     name: "수향 (대경팔공공예협동조합)",
   },
-
-A2: {
-  name: "완도 청해진다원",
+  A2: {
+    name: "완도 청해진다원",
+   instagram: "https://www.instagram.com/wando.teagarden?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   A3: {
   name: "현암제다",
@@ -294,6 +296,7 @@ A2: {
   },
   A5: {
   name: "제주차농",
+  instagram: "https://www.instagram.com/jeju.chanong?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   A6: {
   name: "차인연합회",
@@ -315,6 +318,7 @@ A2: {
   },
   A24: {
   name: "경주 남촌도예",
+  instagram: "https://www.instagram.com/namchondoye?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   A25: {
   name: "트임&김진욱도예원",
@@ -353,6 +357,7 @@ A2: {
   },
   A45: {
   name: "투다헌",
+  instagram: "https://www.instagram.com/tuda_teastore?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   A46: {
   name: "오차연각",
@@ -380,9 +385,11 @@ A2: {
   },
   B15: {
   name: "티 팔래트",
+  instagram: "https://www.instagram.com/tea.palette.2019?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   B16: {
   name: "효월",
+  instagram: "https://www.instagram.com/hyoworltea?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   B17: {
   name: "토정가(이조요) since 1940",
@@ -399,6 +406,7 @@ A2: {
   },
   B24: {
   name: "가마공방",
+  instagram: "https://www.instagram.com/gamagongbang?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   B28: {
   name: "한세은 도예공방",
@@ -414,12 +422,15 @@ A2: {
   },
   C5: {
   name: "청석골감로다원",
+  instagram: "https://www.instagram.com/isuyeongim?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   C8: {
   name: "쟈드리 TEA SHOP",
+  instagram: "https://www.instagram.com/hadong_tea_jadelee?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   C9: {
   name: "웃차",
+  instagram: "https://www.instagram.com/woot.cha?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   C10: {
   name: "찻잎마술/소암 茶",
@@ -432,6 +443,7 @@ A2: {
   },
   C20: {
   name: "오름오르다",
+  instagram: "https://www.instagram.com/oremoreda_ceramic_studio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   C22: {
   name: "조선백자",
@@ -444,6 +456,7 @@ A2: {
   },
   D1: {
   name: "일구다&요산당",
+  instagram: "https://www.instagram.com/ilguda.tea?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   D2: {
   name: "곡천다원",
@@ -460,12 +473,14 @@ A2: {
   },
   D8: {
   name: "하동 휴심선차",
+  instagram: "https://www.instagram.com/husimzentea?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   D9: {
   name: "조태연가 죽로차",
   },
   D10: {
   name: "한밭제다 차공간",
+  instagram: "https://www.instagram.com/hanfarmtea?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   D15: {
     name: "금향다원",
@@ -531,6 +546,7 @@ A2: {
   },
   E22: {
   name: "청담요",
+  instagram: "https://www.instagram.com/cheongdamyo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   E23: {
     name: "긍정공방",
@@ -600,15 +616,17 @@ A2: {
   },
   H4: {
    name: "예평",
+   instagram: "https://www.instagram.com/yepyeong.tea?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   H8: {
-   name: "죽평평",
+   name: "죽평",
   },
   H11: {
     name: "덕화코리아",
   },
   H14: {
     name: "취죽진여실",
+    instagram: "https://www.instagram.com/chwijuk?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
   H15: {
     name: "휴다인",
