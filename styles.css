@@ -673,7 +673,7 @@ body.resizing-map {
 
   .app-shell {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(260px, var(--mobile-map-height)) 14px minmax(0, 1fr);
+    grid-template-rows: var(--mobile-map-height) 14px minmax(0, 1fr);
     height: 100vh;
     height: 100dvh;
     min-height: 0;
@@ -710,6 +710,7 @@ body.resizing-map {
     grid-row: 2;
     order: 2;
     display: block;
+    z-index: 5;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     background: var(--panel);
@@ -741,7 +742,6 @@ body.resizing-map {
 @media (max-width: 560px) {
   .app-shell {
     --mobile-map-height: 42vh;
-    grid-template-rows: minmax(220px, var(--mobile-map-height)) 14px minmax(0, 1fr);
   }
 
   .sidebar,

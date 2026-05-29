@@ -1257,6 +1257,39 @@ function getHotspotIdFromTarget(target) {
   return target instanceof Element ? target.closest(".hotspot")?.dataset.id || "" : "";
 }
 
+function startMapResize(event) {
+  if (!window.matchMedia("(max-width: 920px)").matches) return;
+
+  event.preventDefault();
+  const shellRect = appShell.getBoundingClientRect();
+  mapResizeState = {
+    pointerId: event.pointerId,
+    shellTop: shellRect.top,
+    shellHeight: shellRect.height,
+  };
+  mapListDivider.setPointerCapture(event.pointerId);
+  document.body.classList.add("resizing-map");
+}
+
+function moveMapResize(event) {
+  if (!mapResizeState) return;
+
+  event.preventDefault();
+  const minHeight = window.matchMedia("(max-width: 560px)").matches ? 220 : 260;
+  const maxHeight = Math.max(minHeight, mapResizeState.shellHeight - 220);
+  const nextHeight = Math.min(maxHeight, Math.max(minHeight, event.clientY - mapResizeState.shellTop));
+  appShell.style.setProperty("--mobile-map-height", `${Math.round(nextHeight)}px`);
+}
+
+function stopMapResize() {
+  if (!mapResizeState) return;
+  if (mapListDivider.hasPointerCapture(mapResizeState.pointerId)) {
+    mapListDivider.releasePointerCapture(mapResizeState.pointerId);
+  }
+  mapResizeState = null;
+  document.body.classList.remove("resizing-map");
+}
+
 function pxGroup(ids, left, top, width, height, cols = 2, yOffset = BOOTH_Y_OFFSET) {
   const adjustedTop = top + yOffset;
   return {
